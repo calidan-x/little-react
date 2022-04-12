@@ -11,12 +11,8 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "jsx": "react",
+    "baseUrl": "."
   },
-  "include": ["src"]
+  "files": ["./src/react.tsx"]
 }

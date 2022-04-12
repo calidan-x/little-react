@@ -43,7 +43,6 @@ const React = {
     else {
       domElem = document.createElement(type);
       if (props) {
-        domElem.onclick = () => alert(123);
         for (const p in props) {
           domElem[p.toLowerCase()] = props[p];
         }

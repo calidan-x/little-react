@@ -1,32 +1,28 @@
 // 所有Component的States
-var componentStates = {};
-var componentId = '';
-var componentIdCounter = 1;
-var stateCounter = 0;
+const componentStates = {};
+let componentId = '';
+let componentIdCounter = 1;
+let stateCounter = 0;
 function useState(initVal) {
     if (!componentStates[componentId]) {
         componentStates[componentId] = [];
     }
-    var componentState = componentStates[componentId];
+    const componentState = componentStates[componentId];
     if (componentState.length <= stateCounter) {
         componentState[stateCounter] = initVal;
     }
-    var val = componentState[stateCounter];
+    const val = componentState[stateCounter];
     // 缓存stateCounter的高阶函数
-    var setVal = (function (c) { return function (val) {
+    const setVal = ((c) => (val) => {
         componentState[c] = val;
         ReactDOM.refresh();
-    }; })(stateCounter);
+    })(stateCounter);
     stateCounter++;
     return [val, setVal];
 }
-var React = {
-    createElement: function (type, props) {
-        var children = [];
-        for (var _i = 2; _i < arguments.length; _i++) {
-            children[_i - 2] = arguments[_i];
-        }
-        var domElem = null;
+const React = {
+    createElement(type, props, ...children) {
+        let domElem = null;
         // 是组件
         if (typeof type === 'function') {
             componentId = 'Comp' + componentIdCounter;
@@ -39,15 +35,15 @@ var React = {
         else {
             domElem = document.createElement(type);
             if (props) {
-                domElem.onclick = function () { return alert(123); };
-                for (var p in props) {
+                domElem.onclick = () => alert(123);
+                for (const p in props) {
                     domElem[p.toLowerCase()] = props[p];
                 }
             }
         }
         // 子节点
         if (children) {
-            children.forEach(function (c) {
+            children.forEach((c) => {
                 if (c) {
                     if (typeof c !== 'object') {
                         domElem.appendChild(document.createTextNode(c));
@@ -61,10 +57,10 @@ var React = {
         return domElem;
     }
 };
-var ReactDOM = {
-    refresh: function () { },
-    render: function (renderFunc, domElem) {
-        this.refresh = function () {
+const ReactDOM = {
+    refresh() { },
+    render(renderFunc, domElem) {
+        this.refresh = () => {
             componentIdCounter = 1;
             domElem.innerHTML = '';
             domElem.appendChild(renderFunc());
@@ -72,23 +68,22 @@ var ReactDOM = {
         this.refresh();
     }
 };
-function Comp(_a) {
-    var t = _a.t;
-    var _b = useState('点击标题'), title = _b[0], setTitle = _b[1];
-    var _c = useState(1), count = _c[0], setCount = _c[1];
+function Comp({ t }) {
+    const [title, setTitle] = useState('点击标题');
+    const [count, setCount] = useState(1);
     return (React.createElement("div", null,
         t,
-        React.createElement("div", { onClick: function () {
+        React.createElement("div", { onClick: () => {
                 setTitle('标题改变');
             } }, title),
-        React.createElement("button", { onClick: function () {
+        React.createElement("button", { onClick: () => {
                 setCount(count + 1);
             } },
             "\u70B9\u51FB\uFF1A",
             count)));
 }
 // 因为没有生成 Virtual DOM 所以第一个参数只能传入一个重新渲染的函数
-ReactDOM.render(function () { return (React.createElement("div", null,
+ReactDOM.render(() => (React.createElement("div", null,
     React.createElement(Comp, { t: "AAA1" }),
     React.createElement("br", null),
     React.createElement(Comp, { t: "BBB2" }),
@@ -97,4 +92,4 @@ ReactDOM.render(function () { return (React.createElement("div", null,
     React.createElement("br", null),
     React.createElement(Comp, { t: "DDD4" }),
     React.createElement("br", null),
-    JSON.stringify(componentStates))); }, document.body);
+    JSON.stringify(componentStates))), document.body);

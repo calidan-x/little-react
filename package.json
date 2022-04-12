@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc src/react.tsx --jsx react"
+    "compile": "tsc"
   },
   "keywords": [],
   "author": "",
