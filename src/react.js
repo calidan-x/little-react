@@ -35,7 +35,6 @@ const React = {
         else {
             domElem = document.createElement(type);
             if (props) {
-                domElem.onclick = () => alert(123);
                 for (const p in props) {
                     domElem[p.toLowerCase()] = props[p];
                 }
@@ -84,6 +83,9 @@ function Comp({ t }) {
 }
 // 因为没有生成 Virtual DOM 所以第一个参数只能传入一个重新渲染的函数
 ReactDOM.render(() => (React.createElement("div", null,
+    React.createElement("button", { onClick: () => {
+            alert('点击事件');
+        } }, "\u70B9\u51FB\u4E8B\u4EF6"),
     React.createElement(Comp, { t: "AAA1" }),
     React.createElement("br", null),
     React.createElement(Comp, { t: "BBB2" }),
