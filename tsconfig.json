@@ -10,8 +10,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "jsx": "react",
-    "baseUrl": "."
+    "jsx": "react"
   },
   "files": ["./src/react.tsx"]
 }
